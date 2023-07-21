@@ -10,6 +10,13 @@ interface HamburgerProps {
 
 export function Hamburger({ state }: HamburgerProps) {
   let menu = useRef<HTMLDivElement>(null);
+  let revealMenu = useRef<HTMLDivElement>(null);
+  let revealMenuBackground = useRef<HTMLDivElement>(null);
+  let cityBackground = useRef<HTMLDivElement>(null);
+  let line1 = useRef<HTMLAnchorElement>(null);
+  let line2 = useRef<HTMLAnchorElement>(null);
+  let line3 = useRef<HTMLAnchorElement>(null);
+  let info = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (menu.current) {
@@ -29,9 +36,15 @@ export function Hamburger({ state }: HamburgerProps) {
       ref={menu}
       className='hambruger-menu hidden z-[9] fixed inset-0 h-full w-full '
     >
-      <div className='menu-secondary-background-color fixed inset-0 h-full w-full bg-black z-[-1] '></div>
-      <div className='menu-layer relative bg-red-700 h-full overflow-hidden '>
-        <div className='menu-city-background inset-0 absolute h-full w-full opacity-0  '></div>
+      <div
+        ref={revealMenuBackground}
+        className='menu-secondary-background-color fixed inset-0 h-full w-full bg-black z-[-1] '
+      />
+      <div
+        ref={revealMenu}
+        className='menu-layer relative bg-red-700 h-full overflow-hidden '
+      >
+        <div ref={cityBackground} className='menu-city-background inset-0 absolute h-full w-full opacity-0  '></div>
         <div className='containerLembrar w-[1280px] min-w-[1280px] mx-auto'>
           <div className='wrapper px-[48px] relative '>
             <div className='menu-links flex justify-between items-center relative top-[200px] '>
@@ -39,6 +52,7 @@ export function Hamburger({ state }: HamburgerProps) {
                 <ul className='p-0 m-0'>
                   <li className='text-[6rem] font-bold cursor-pointer h-[135px] overflow-hidden relative w-[700px] '>
                     <Link
+                      ref={line1}
                       href='/opportunities'
                       className='absolute text-white hover:text-black '
                     >
@@ -47,6 +61,7 @@ export function Hamburger({ state }: HamburgerProps) {
                   </li>
                   <li className='text-[6rem] font-bold cursor-pointer h-[135px] overflow-hidden relative w-[700px] '>
                     <Link
+                      ref={line2}
                       href='/solutions'
                       className='absolute text-white hover:text-black '
                     >
@@ -55,6 +70,7 @@ export function Hamburger({ state }: HamburgerProps) {
                   </li>
                   <li className='text-[6rem] font-bold cursor-pointer h-[135px] overflow-hidden relative w-[700px] '>
                     <Link
+                      ref={line3}
                       href='/contact'
                       className='absolute text-white hover:text-black '
                     >
@@ -63,7 +79,7 @@ export function Hamburger({ state }: HamburgerProps) {
                   </li>
                 </ul>
               </nav>
-              <div className='info text-white w-[300px] '>
+              <div ref={info} className='info text-white w-[300px] '>
                 <h3 className='text-[1.2rem] my-2 mx-auto '>Our Promises</h3>
                 <p className='mx-auto text-[.8rem] '>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
