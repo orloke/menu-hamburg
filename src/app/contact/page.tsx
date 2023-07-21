@@ -1,5 +1,5 @@
 export default function contact() {
   return (
-    <div className='/* classname */'>Entre em contato</div>
+    <p>Entre em contato com a gente!</p>
   );
 };

@@ -4,6 +4,6 @@ interface solutionsProps {
 
 export default function Solutions() {
   return (
-    <div className='bg-red-500'>Viajar é a solução</div>
+    <p>Solução para a sua vida: viajar!</p>
   );
 };
