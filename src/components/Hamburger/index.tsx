@@ -1,12 +1,34 @@
+"use client";
+
+import { State } from "@/types";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 interface HamburgerProps {
-  /* props go here */
+  state: State;
 }
 
-export function Hamburger() {
+export function Hamburger({ state }: HamburgerProps) {
+  let menu = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (menu.current) {
+      if (state.clicked === false) {
+        menu.current.style.display = "none";
+      } else if (
+        state.clicked === true ||
+        (state.clicked === true && state.initial === null)
+      ) {
+        menu.current.style.display = "block";
+      }
+    }
+  }, [state]);
+
   return (
-    <div className='hambruger-menu hidden z-[9] fixed inset-0 h-full w-full '>
+    <div
+      ref={menu}
+      className='hambruger-menu hidden z-[9] fixed inset-0 h-full w-full '
+    >
       <div className='menu-secondary-background-color fixed inset-0 h-full w-full bg-black z-[-1] '></div>
       <div className='menu-layer relative bg-red-700 h-full overflow-hidden '>
         <div className='menu-city-background inset-0 absolute h-full w-full opacity-0  '></div>
