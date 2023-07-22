@@ -142,6 +142,24 @@ export function Hamburger({ state }: HamburgerProps) {
     });
   };
 
+  const handleOver = (e:React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    gsap.to(e.target,{
+      duration: 0.3,
+      y:3,
+      skewX:4,
+      ease: "power3.inOut",
+    })
+  }
+
+  const handleOverExit = (e:React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    gsap.to(e.target,{
+      duration: 0.3,
+      y:-3,
+      skewX:0,
+      ease: "power3.inOut",
+    })
+  }
+
   return (
     <div
       ref={menu}
@@ -169,6 +187,8 @@ export function Hamburger({ state }: HamburgerProps) {
                       ref={line1}
                       href='/opportunities'
                       className='absolute text-white hover:text-black '
+                      onMouseEnter={(e)=>handleOver(e)}
+                      onMouseOut={(e)=>handleOverExit(e)}
                     >
                       Oportunities
                     </Link>
@@ -178,6 +198,8 @@ export function Hamburger({ state }: HamburgerProps) {
                       ref={line2}
                       href='/solutions'
                       className='absolute text-white hover:text-black '
+                      onMouseEnter={(e)=>handleOver(e)}
+                      onMouseOut={(e)=>handleOverExit(e)}
                     >
                       solutions
                     </Link>
@@ -187,6 +209,8 @@ export function Hamburger({ state }: HamburgerProps) {
                       ref={line3}
                       href='/contact'
                       className='absolute text-white hover:text-black '
+                      onMouseEnter={(e)=>handleOver(e)}
+                      onMouseOut={(e)=>handleOverExit(e)}
                     >
                       contact
                     </Link>
