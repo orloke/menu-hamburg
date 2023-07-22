@@ -2,12 +2,27 @@
 
 import { State } from "@/types";
 import Link from "next/link";
-import { RefObject, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+
+import dallas from "../../images/dallas.webp";
+import beijing from "@/images/beijing.webp";
+import austin from "@/images/austin.webp";
+import newyork from "@/images/newyork.webp";
+import sanfrancisco from "@/images/sanfrancisco.webp";
+import { StaticImageData } from "next/image";
 
 interface HamburgerProps {
   state: State;
 }
+
+const cities = [
+  { name: "Dallas", image: dallas.src },
+  { name: "Austin", image: austin.src },
+  { name: "New York", image: newyork.src },
+  { name: "San Francisco", image: sanfrancisco.src },
+  { name: "Beijing", image: beijing.src },
+];
 
 export function Hamburger({ state }: HamburgerProps) {
   let menu = useRef<HTMLDivElement>(null);
@@ -103,6 +118,30 @@ export function Hamburger({ state }: HamburgerProps) {
     });
   };
 
+  const handleCity = (city: string) => {
+    gsap.to(cityBackground.current, {
+      duration: 0,
+      background: `url(${city}) center center`,
+    });
+    gsap.to(cityBackground.current, {
+      duration: 0.4,
+      opacity: 1,
+      ease: "power3.inOut",
+    });
+    gsap.from(cityBackground.current, {
+      duration: 0.4,
+      skewY: 2,
+      transformOrigin: "right top",
+    });
+  };
+
+  const handleCityReturn = () => {
+    gsap.to(cityBackground.current, {
+      duration: 0.4,
+      opacity: 0,
+    });
+  };
+
   return (
     <div
       ref={menu}
@@ -118,8 +157,8 @@ export function Hamburger({ state }: HamburgerProps) {
       >
         <div
           ref={cityBackground}
-          className='menu-city-background inset-0 absolute h-full w-full opacity-0  '
-        ></div>
+          className='menu-city-background inset-0 absolute h-full w-full bg-cover bg-no-repeat animate-caneraPan opacity-0'
+        />
         <div className='containerLembrar w-[1280px] min-w-[1280px] mx-auto'>
           <div className='wrapper px-[48px] relative '>
             <div className='menu-links flex justify-between items-center relative top-[200px] '>
@@ -165,21 +204,16 @@ export function Hamburger({ state }: HamburgerProps) {
               </div>
               <div className='locations absolute bottom-[-80px] text-white mt-4 text-[.8rem] font-semibold '>
                 Locations:
-                <span className='cursor-pointer mx-8 my-0 transition-all duration-[.3s] hover:bg-black hover:py-2 hover:px-6 rounded font-normal ml-16 '>
-                  Dallas
-                </span>
-                <span className='cursor-pointer mx-8 my-0 transition-all duration-[.3s] hover:bg-black hover:py-2 hover:px-6 rounded font-normal  '>
-                  Austin
-                </span>
-                <span className='cursor-pointer mx-8 my-0 transition-all duration-[.3s] hover:bg-black hover:py-2 hover:px-6 rounded font-normal  '>
-                  New York
-                </span>
-                <span className='cursor-pointer mx-8 my-0 transition-all duration-[.3s] hover:bg-black hover:py-2 hover:px-6 rounded font-normal  '>
-                  San Francisco{" "}
-                </span>
-                <span className='cursor-pointer mx-8 my-0 transition-all duration-[.3s] hover:bg-black hover:py-2 hover:px-6 rounded font-normal  '>
-                  Benjin
-                </span>
+                {cities.map(city => (
+                  <span
+                    key={city.name}
+                    className='cursor-pointer mx-8 my-0 transition-all duration-[.3s] hover:bg-black hover:py-2 hover:px-6 rounded font-normal first:ml-16 '
+                    onMouseEnter={() => handleCity(city.image)}
+                    onMouseOut={handleCityReturn}
+                  >
+                    {city.name}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
