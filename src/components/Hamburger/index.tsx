@@ -20,7 +20,15 @@ export function Hamburger({ state }: HamburgerProps) {
   let info = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (menu.current && revealMenuBackground.current && revealMenu.current) {
+    if (
+      menu.current &&
+      revealMenuBackground.current &&
+      revealMenu.current &&
+      info.current &&
+      line1.current &&
+      line2.current &&
+      line3.current
+    ) {
       if (state.clicked === false) {
         gsap.to([revealMenu.current, revealMenuBackground.current], {
           duration: 0.8,
@@ -42,6 +50,7 @@ export function Hamburger({ state }: HamburgerProps) {
           duration: 0,
           css: { display: "block" },
         });
+
         gsap.to([revealMenuBackground.current, revealMenu.current], {
           duration: 0,
           opacity: 1,
@@ -49,6 +58,8 @@ export function Hamburger({ state }: HamburgerProps) {
         });
 
         staggerReveal(revealMenuBackground.current, revealMenu.current);
+        fadeInUp(info.current);
+        staggerText(line1.current, line2.current, line3.current);
       }
     }
   }, [state]);
@@ -62,6 +73,32 @@ export function Hamburger({ state }: HamburgerProps) {
       ease: "power3.inOut",
       stagger: {
         amount: 0.1,
+      },
+    });
+  };
+
+  const fadeInUp = (node1: HTMLDivElement) => {
+    gsap.from(node1, {
+      y: 60,
+      duration: 0.8,
+      delay: 0.3,
+      opacity: 0,
+      ease: "power3.inOut",
+    });
+  };
+
+  const staggerText = (
+    node1: HTMLAnchorElement,
+    node2: HTMLAnchorElement,
+    node3: HTMLAnchorElement,
+  ) => {
+    gsap.from([node1, node2, node3], {
+      duration: 0.8,
+      y: 100,
+      delay: 0.1,
+      ease: "power3.inOut",
+      stagger: {
+        amount: 0.3,
       },
     });
   };

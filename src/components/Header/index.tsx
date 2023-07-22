@@ -17,7 +17,7 @@ export function Header() {
     menuName: "Menu",
   });
   const [disabled, setDisabled] = useState(false);
-  console.log(pathName);
+
   useEffect(() => {
     setState(prev => {
       return { ...prev, clicked: false, menuName: "Menu" };
