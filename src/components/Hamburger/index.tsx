@@ -2,7 +2,8 @@
 
 import { State } from "@/types";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { RefObject, useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
 interface HamburgerProps {
   state: State;
@@ -19,17 +20,51 @@ export function Hamburger({ state }: HamburgerProps) {
   let info = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (menu.current) {
+    if (menu.current && revealMenuBackground.current && revealMenu.current) {
       if (state.clicked === false) {
-        menu.current.style.display = "none";
+        gsap.to([revealMenu.current, revealMenuBackground.current], {
+          duration: 0.8,
+          height: 0,
+          ease: "power3.inOut",
+          stagger: {
+            amount: 0.07,
+          },
+        });
+        gsap.to(menu.current, {
+          duration: 1,
+          css: { display: "none" },
+        });
       } else if (
         state.clicked === true ||
         (state.clicked === true && state.initial === null)
       ) {
-        menu.current.style.display = "block";
+        gsap.to(menu.current, {
+          duration: 0,
+          css: { display: "block" },
+        });
+        gsap.to([revealMenuBackground.current, revealMenu.current], {
+          duration: 0,
+          opacity: 1,
+          height: "100%",
+        });
+
+        staggerReveal(revealMenuBackground.current, revealMenu.current);
       }
     }
   }, [state]);
+
+  const staggerReveal = (node1: HTMLDivElement, node2: HTMLDivElement) => {
+    gsap.from([node1, node2], {
+      duration: 0.8,
+      height: 0,
+      transformOrigin: "right top",
+      skewY: 2,
+      ease: "power3.inOut",
+      stagger: {
+        amount: 0.1,
+      },
+    });
+  };
 
   return (
     <div
@@ -44,7 +79,10 @@ export function Hamburger({ state }: HamburgerProps) {
         ref={revealMenu}
         className='menu-layer relative bg-red-700 h-full overflow-hidden '
       >
-        <div ref={cityBackground} className='menu-city-background inset-0 absolute h-full w-full opacity-0  '></div>
+        <div
+          ref={cityBackground}
+          className='menu-city-background inset-0 absolute h-full w-full opacity-0  '
+        ></div>
         <div className='containerLembrar w-[1280px] min-w-[1280px] mx-auto'>
           <div className='wrapper px-[48px] relative '>
             <div className='menu-links flex justify-between items-center relative top-[200px] '>
